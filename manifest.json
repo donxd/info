@@ -1,0 +1,7 @@
+{
+  "name": "profile",
+  "short_name": "profile",
+  "description": "Profile application",
+  "start_url": "/",
+  "display": "standalone"
+}
