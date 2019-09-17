@@ -2,7 +2,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script> -->
 
 <dom-module id="profile-app">
   <template>
@@ -30,28 +29,14 @@
         <div class="card-body">
           <h3 class="card-title">{{data.name}}</h3>
           <h5 class="card-subtitle mb-2 text-muted">
-            <!-- <a id="mail" data-clipboard-text="{{data.email}}" href="mailto:{{data.email}}">{{data.email}}</a> -->
-            <!-- <a id="mail" href="mailto:{{data.email}}">{{data.email}}</a> -->
-            <!-- <a id="mail" href="#">{{data.email}}</a> -->
-            <!-- <a id="mail" href="mailto:{{data.email}}" data-toggle="tooltip" title="Copied!">{{data.email}}</a> -->
-            <!-- <a id="mail" href="mailto:{{data.email}}" title="Copied!">{{data.email}}</a> -->
             <a id="mail" href="#" title="Copied!">{{data.email}}</a>
-            <!-- <a id="mail" data-clipboard-text="{{data.email}}" href="#">{{data.email}}</a> -->
-            <!-- <a id="mail" class="mail" data-clipboard-action="copy" data-clipboard-target="#mail" href="#">{{data.email}}</a> -->
-            <!-- <a id="mail" class="mail" data-clipboard-action="copy" data-clipboard-target=".mail" href="#">{{data.email}}</a> -->
-            <!-- <a id="mail" data-clipboard-text="{{data.email}}">{{data.email}}</a> -->
           </h5>
         </div>
         <div class="card-footer">
-          <!-- <ion-icon name="logo-linkedin"></ion-icon> -->
-
           <a class="icon-link" href="{{data.linkedin}}">
-            <!-- <h1 class="icon text-hide" style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/collection/build/ionicons/svg/logo-linkedin.svg');">Linkedin</h1> -->
             <img class="icon" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/collection/build/ionicons/svg/logo-linkedin.svg" />
           </a>
-          <!-- <br/> -->
           <a class="icon-link" href="{{data.github}}">
-            <!-- Github -->
             <img class="icon" src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/collection/build/ionicons/svg/logo-github.svg" />
           </a>
         </div>
@@ -320,20 +305,12 @@
       }
       _prepareData (data) {
         if (data && data.repositories) {
-          // setTimeout(() => {
-          //   $(() => {
-          //     $(this.$.mail).tooltip();
-          //     // $('[data-toggle="tooltip"]').tooltip();
-          //     console.log('fuh!');
-          //   });
-          // }, 1000);
           $(this.$.mail).tooltip({trigger: 'manual', placement: 'right'});
           for (let x of data.repositories) {
             x.toolsGroup = this._prepareTools(x.tools);
           }
           const copyMail = new ClipboardJS(this.$.mail, {
             text: trigger => {
-              // $(this.$.mail).tooltip();
               $(this.$.mail).tooltip('show');
               setTimeout(() => $(this.$.mail).tooltip('hide'), 1500);
               return this.data.email;
