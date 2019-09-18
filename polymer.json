@@ -1,4 +1,10 @@
 {
+  "sources": [
+   "src/**/*",
+   "data/**/*",
+   "images/**/*",
+   "bower.json"
+  ],
   "builds": [{
     "basePath": "/info/",
     "bundle": true,
