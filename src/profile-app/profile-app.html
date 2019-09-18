@@ -24,7 +24,7 @@
         <img class="card-img-top" style="height:150px; object-fit: cover;" 
         src="{{profile.background}}" />
         <div style="height: 100px;">
-          <img style="position: relative; top: -100px;" class="mx-auto d-block rounded-circle border border-dark" src="{{data.image}}"></img>
+          <img style="position: relative; top: -100px;" class="mx-auto d-block rounded-circle border border-dark" src="{{data.image}}" crossorigin="anonymous" />
         </div>
         <div class="card-body">
           <h3 class="card-title">{{data.name}}</h3>
@@ -35,7 +35,7 @@
         </div>
         <div class="card-footer">
           <a class="icon-link" href="{{data.linkedin}}">
-            <img class="icon" src="{{icons.linkedin}}" crossorigin="anonymous"/>
+            <img class="icon" src="{{icons.linkedin}}" />
           </a>
           <a class="icon-link" href="{{data.github}}">
             <img class="icon" src="{{icons.github}}" />
