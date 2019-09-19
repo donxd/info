@@ -34,10 +34,10 @@
           </h5>
         </div>
         <div class="card-footer">
-          <a class="icon-link" href="{{data.linkedin}}">
+          <a class="icon-link" target="_blank" href="{{data.linkedin}}">
             <img class="icon" src="{{icons.linkedin}}" />
           </a>
-          <a class="icon-link" href="{{data.github}}">
+          <a class="icon-link" target="_blank" href="{{data.github}}">
             <img class="icon" src="{{icons.github}}" />
           </a>
         </div>
@@ -57,7 +57,7 @@
               <tr>
                 <!-- <th scope="row"></th> -->
                 <td>
-                  <a href="{{repository.url}}">{{repository.name}}</a>
+                  <a target="_blank" href="{{repository.url}}">{{repository.name}}</a>
                 </td>
                 <td>
                   <div class="tools">
@@ -139,6 +139,16 @@
                   name: 'celex-crawler',
                   url: 'https://github.com/donxd/celex-crawler',
                   tools: ['node', 'js', 'mysql']
+                },
+                {
+                  name: 'mipoli',
+                  url: 'https://github.com/donxd/mipoli',
+                  tools: ['android', 'java', 'js']
+                },
+                {
+                  name: 'profile-info',
+                  url: 'https://github.com/donxd/info',
+                  tools: ['polymer', 'html', 'js', 'css']
                 },
                 {
                   name: 'cf-scripts',
