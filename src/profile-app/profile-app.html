@@ -4,7 +4,7 @@
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
-<link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
 
 
 <dom-module id="profile-app">
@@ -12,6 +12,12 @@
     <style>
       :host {
         display: block;
+      }
+      .selected {
+        color: orange;
+      }
+      .tool {
+        cursor: pointer;
       }
       .icon {
         height: 32px;
@@ -32,7 +38,7 @@
       }
     </style>
     <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
-    <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <br/>
     <div class="profile">
@@ -73,7 +79,17 @@
       </div>
       <br/>
       <div class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
-        <h5>{{messages.projectsTitle}}</h5>
+        <div class="d-flex justify-content-between">
+          <h5>{{messages.projectsTitle}}</h5>
+          <div>
+            <template is="dom-if" if="{{clearFilters}}">
+              <button type="button" on-click="_clearFilters" class="btn btn-outline-primary btn-sm">{{messages.clear}}</button>
+            </template>
+            <template id="tools" is="dom-repeat" as="tool" items="{{data.tools}}">
+              <i on-click="_filter" class$="{{tool.icon}} tool" aria-hidden="true"></i>
+            </template>
+          </div>
+        </div>
         <table class="table table-hover table-striped">
           <thead>
             <tr>
@@ -83,7 +99,7 @@
             </tr>
           </thead>
           <tbody>
-            <template is="dom-repeat" as="repository" items="{{data.repositories}}">
+            <template is="dom-repeat" as="repository" items="{{repositoriesShow}}">
               <tr>
                 <!-- <th scope="row"></th> -->
                 <td>
@@ -135,6 +151,7 @@
           messages: {
             type: Object,
             value: {
+              clear: 'Clear',
               copied: 'Copied!',
               examples: 'Code examples',
               resume: 'Resume',
@@ -171,6 +188,37 @@
               github: 'https://github.com/donxd',
               image: 'https://media.licdn.com/dms/image/C4E03AQFYmoE7jsArGg/profile-displayphoto-shrink_200_200/0?e=1573689600&v=beta&t=yUuOx7H1RFYyOO7Y6_afUACZYsjc4X6fR-ddrgXdD_o',
               cf: 'https://app.codesignal.com/profile/donxd',
+              tools: [
+                {
+                  icon: 'fab fa-js',
+                  name: 'js'
+                },
+                {
+                  icon: 'fab fa-html5',
+                  name: 'html'
+                },
+                {
+                  icon: 'fab fa-css3-alt',
+                  name: 'css'
+                },
+                {
+                  icon: 'fab fa-android',
+                  name: 'android'
+                },
+                {
+                  icon: 'fab fa-java',
+                  name: 'java'
+                },
+                {
+                  // icon: 'fab fa-node',
+                  icon: 'fab fa-node-js',
+                  name: 'node'
+                },
+                {
+                  icon: 'fab fa-docker',
+                  name: 'docker'
+                }
+              ],  
               resume: 'https://drive.google.com/file/d/0B3Zf_GJV62aPMEEzQVpXZldxTHc/view?usp=sharing',
               repositories: [
                 {
@@ -510,6 +558,8 @@
         };
       }
       _changeData (newData, oldData) {
+        this.filterByTools = new Set();
+        this.selectedTools = [];
         this._prepareData(newData);
       }
       _prepareData (data) {
@@ -527,11 +577,52 @@
               return this.data.email;
             }
           });
+          this.repositoriesShow = data.repositories;
         }
       }
       _prepareTools (tools) {
         return tools.join(', ');
       }
+
+      _filter (event) {
+        // console.log('event : ', event);
+        let item = this.$.tools.itemForElement(event.target);
+        // console.log('item : ', item);
+        if (this.filterByTools.has(item.name)) {
+          this.filterByTools.delete(item.name);
+          event.target.classList.remove('selected');
+        } else {
+          this.filterByTools.add(item.name);
+          event.target.classList.add('selected');
+          this.selectedTools.push(event.target);
+        }
+        // item.classList.add('selected');
+        // this.filterByTools.add(item.name);
+        this._filterTools();
+      }
+
+      _filterTools () {
+        this.clearFilters = !!this.filterByTools.size;
+        // this.repositoriesShow = [...this.data.repositories.filter(repository => repository.name === item.name)];
+        this.repositoriesShow = this.data.repositories.filter(repository => this._searchElements(repository.tools, this.filterByTools));
+      }
+
+      _clearFilters () {
+        this.filterByTools.clear();
+        for (let x of this.selectedTools) {
+          x.classList.remove('selected');
+        }
+        this._filterTools();
+      }
+
+      _searchElements (tools, filters) {
+        let count = 0;
+        for (let x of Array.from(filters)) {
+          // if (tools.includes(x)) return true;
+          if (tools.includes(x)) count++;
+        }
+        return count === filters.size;
+      } 
     }
 
     window.customElements.define(ProfileApp.is, ProfileApp);
