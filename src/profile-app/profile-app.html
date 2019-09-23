@@ -106,6 +106,9 @@
                   <a target="_blank" class="text-secondary" href="{{repository.url}}">
                     {{repository.name}}
                     <i class="fas fa-external-link-alt"></i>
+                    <template is="dom-if" if="{{repository.new}}">
+                      <span class="badge badge-dark">New</span>
+                    </template>
                   </a>
                 </td>
                 <td>
@@ -269,12 +272,27 @@
 
                 {
                   name: 'reportes-ss-ipn',
+                  new: false,
                   url: 'https://github.com/donxd/reportes-ss-ipn',
                   tools: ['php', 'js', 'html', 'css', 'word', 'excel']
                 },
+
                 {
-                  name: 'js-poo',
-                  url: 'https://github.com/donxd/js-poo-test-es',
+                  name: 'cs-arcade-graphs-001',
+                  new: true,
+                  url: 'https://github.com/donxd/cs-arcade-graphs-001',
+                  tools: ['js']
+                },
+                {
+                  name: 'cs-arcade-graphs-002',
+                  new: true,
+                  url: 'https://github.com/donxd/cs-arcade-graphs-002',
+                  tools: ['js']
+                },
+                {
+                  name: 'cs-arcade-graphs-003',
+                  new: true,
+                  url: 'https://github.com/donxd/cs-arcade-graphs-003',
                   tools: ['js']
                 },
 
@@ -293,13 +311,20 @@
                   url: 'https://github.com/donxd/basic-kube',
                   tools: ['kubernetes', 'docker', 'node', 'express']
                 },
+
+                {
+                  name: 'js-poo',
+                  url: 'https://github.com/donxd/js-poo-test-es',
+                  tools: ['js']
+                },
+
                 
                 {
                   name: 'mods-saes-mobile',
                   url: 'https://github.com/donxd/mods-saes-mobile',
                   tools: ['js', 'html', 'css']
                 },
-                
+
                 {
                   name: 'cs-arcade-intro-001',
                   url: 'https://github.com/donxd/cs-arcade-intro-001',
