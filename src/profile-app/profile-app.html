@@ -36,13 +36,30 @@
       .icon-link {
         text-decoration: none !important;
       }
+      #profile {
+        position: relative;
+        overflow-y: scroll;
+      }
     </style>
     <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
     <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <br/>
-    <div class="profile">
-      <div class="card text-center border-dark mx-auto" style="width: 90%; max-width: 750px;">
+    <!-- <br/> -->
+    <nav id="navbarprofile" class="navbar sticky-top navbar-light bg-light">
+      <a class="navbar-brand" href="#">Sticky top</a>
+      <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link" href="#algo">@1</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#qwerty">@2</a>
+          </li>
+        </ul>
+    </nav>
+    <!-- <div id="profile"> -->
+    <div id="profile" style="height: {{fixSize}}px;">
+    <!-- <div id="profile" style="position: relative; height: 100%; overflow-y: scroll;"> -->
+      <div id="algo" class="card text-center border-dark mx-auto" style="width: 90%; max-width: 750px;">
         <img class="card-img-top" style="height:150px; object-fit: cover;" 
         src="{{profile.background}}" />
         <div style="height: 100px;">
@@ -78,7 +95,7 @@
         </div>
       </div>
       <br/>
-      <div class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
+      <div id="qwerty" class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
         <div class="d-flex justify-content-between">
           <h5>{{messages.projectsTitle}}</h5>
           <div>
@@ -582,6 +599,12 @@
           }
         };
       }
+      ready () {
+        super.ready();
+        this.fixSize = window.innerHeight - this.$.navbarprofile.offsetHeight;
+        // document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
+        // document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
+      }
       _changeData (newData, oldData) {
         this.filterByTools = new Set();
         this.selectedTools = [];
@@ -592,16 +615,43 @@
           $(this.$.mail).tooltip({trigger: 'manual', placement: 'right'});
           $(this.$.examples).tooltip();
           $(this.$.resume).tooltip();
+          // $('body').scrollspy({ target: '#navbar-example' })
+          // $(this.$.profile).scrollspy({ target: '#navbar-profile' });
+          // document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
+          // document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
+
+          document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
+          document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
+
+          // $(this.$.profile).scrollspy({ target: this.$.navbarprofile });
+          $(this.$.profile).scrollspy({ target: '#navbarprofile' });
+          $(this.$.examplenav).scrollspy({ target: '#navbarexample2' });
+          // document.querySelectorAll = this.shadowRoot.querySelectorAll;
+          // document.querySelector = this.shadowRoot.querySelector;
+
+
+          // $(this.$.examplenav).scrollspy({ target: this.$.navbarexample2 });
+          // $('[data-spy="scroll"]').on('activate.bs.scrollspy', function () {
+          //   // do something…
+          // })
+          // $(this.$.profile).on('activate.bs.scrollspy', function () {
+          // $(this.$.examplenav).on('activate.bs.scrollspy',  () => {
+          //   console.log('lksadjflaksjdlf @@@2');
+          //   debugger;
+          //   // console.log('-----------> ', $(this.$.examplenav).scrollspy);
+          // $(this.$.examplenav).scrollspy({ target: this.$.navbarexample2 });
+          //   // console.log('-----------> ', $(this.$.examplenav).scrollspy);
+          // });
           for (let x of data.repositories) {
             x.toolsGroup = this._prepareTools(x.tools);
           }
-          const copyMail = new ClipboardJS(this.$.mail, {
-            text: trigger => {
-              $(this.$.mail).tooltip('show');
-              setTimeout(() => $(this.$.mail).tooltip('hide'), 1500);
-              return this.data.email;
-            }
-          });
+          // const copyMail = new ClipboardJS(this.$.mail, {
+          //   text: trigger => {
+          //     $(this.$.mail).tooltip('show');
+          //     setTimeout(() => $(this.$.mail).tooltip('hide'), 1500);
+          //     return this.data.email;
+          //   }
+          // });
           this.repositoriesShow = data.repositories;
         }
       }
