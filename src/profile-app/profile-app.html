@@ -3,7 +3,6 @@
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
 <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
 
 
@@ -41,25 +40,65 @@
         overflow-y: scroll;
       }
     </style>
-    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> -->
     <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- <br/> -->
+    <div style="display: none;">
+      <div>
+        <nav id="navbarexample2" class="navbar navbar-light bg-light">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link" href="#fat">@fat</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#mdo">@mdo</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#one">one</a>
+                <a class="dropdown-item" href="#two">two</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#three">three</a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <!-- <div id="examplenav" data-spy="scroll" data-target="#navbarexample2" data-offset="0" style="position: relative; height: 500px;"> -->
+        <!-- <div id="examplenav" data-spy="scroll" data-target="#navbarexample2" data-offset="0" style="position: relative; height: 200px; overflow-y: scroll;"> -->
+        <!-- <div id="examplenav" style="height: 200px; overflow-y: scroll;"> -->
+        <div id="examplenav" style="position: relative; height: 200px; overflow-y: scroll;">
+          <h4 id="fat">@fat</h4>
+          <p>...</p>
+          <h4 id="mdo">@mdo</h4>
+          <p>...</p>
+          <h4 id="one">one</h4>
+          <p>...</p>
+          <h4 id="two">two</h4>
+          <p>...</p>
+          <h4 id="three">three</h4>
+          <p>...</p>
+        </div>
+      </div>
+    </div>
     <nav id="navbarprofile" class="navbar sticky-top navbar-light bg-light">
-      <a class="navbar-brand" href="#">Sticky top</a>
+      <a class="navbar-brand" href="#">Barra</a>
       <ul class="nav nav-pills">
           <li class="nav-item">
-            <a class="nav-link" href="#algo">@1</a>
+            <a class="nav-link" href="#algo">info</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#qwerty">@2</a>
+            <a class="nav-link" href="#qwerty">projects</a>
           </li>
         </ul>
     </nav>
     <!-- <div id="profile"> -->
     <div id="profile" style="height: {{fixSize}}px;">
     <!-- <div id="profile" style="position: relative; height: 100%; overflow-y: scroll;"> -->
-      <div id="algo" class="card text-center border-dark mx-auto" style="width: 90%; max-width: 750px;">
+      <h4 id="algo"></h4>
+      <!-- <br/> -->
+      <div class="card text-center border-dark mx-auto" style="width: 90%; max-width: 750px;">
         <img class="card-img-top" style="height:150px; object-fit: cover;" 
         src="{{profile.background}}" />
         <div style="height: 100px;">
@@ -95,7 +134,8 @@
         </div>
       </div>
       <br/>
-      <div id="qwerty" class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
+      <h4 id="qwerty"></h4>
+      <div class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
         <div class="d-flex justify-content-between">
           <h5>{{messages.projectsTitle}}</h5>
           <div>
@@ -601,7 +641,14 @@
       }
       ready () {
         super.ready();
+        // this.fixSize = window.innerHeight - this.$.navbarprofile.offsetHeight;
+        this._setFixSize();
+        window.onresize = () => this._setFixSize();
+      }
+      _setFixSize () {
         this.fixSize = window.innerHeight - this.$.navbarprofile.offsetHeight;
+        // this.fixSize = window.innerHeight - this.$.navbarprofile.offsetHeight -100;
+        // this.fixSize = 500;
       }
       _changeData (newData, oldData) {
         this.filterByTools = new Set();
@@ -617,7 +664,49 @@
           document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
           document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
 
+          // $(this.$.profile).scrollspy({ target: '#navbarprofile', offset: 10 });
+          // $(this.$.profile).scrollspy({ target: '#navbarprofile', offset: 0 });
+          // const tracking = $(this.$.profile).scrollspy({ target: '#navbarprofile' });
           $(this.$.profile).scrollspy({ target: '#navbarprofile' });
+          // console.log('tracking : ', tracking);
+          // $(this.$.profile).scrollspy('refresh');
+          // console.log('tracking : ', $(this.$.profile)._activeTarget);
+          // console.log('tracking : ', typeof $(this.$.profile).scrollspy);
+          // console.log('tracking : ', instanceof $(this.$.profile).scrollspy);
+          // console.log('tracking : ', $(this.$.profile).scrollspy());
+          // console.log('tracking : ', $(this.$.profile));
+          // console.log('tracking : ', $(this.$.profile).data());
+          // console.log('tracking : ', $(this.$.profile).data()['bs.scrollspy']);
+          // console.log('tracking : ', $(this.$.profile).data()['bs.scrollspy']._activeTarget);
+          console.log('tracking : ', $(this.$.profile).data()['bs.scrollspy']);
+          console.log('tracking i : ', $(this.$.profile).data()['bs.scrollspy']._activeTarget);
+          $(this.$.profile).data()['bs.scrollspy']._activeTarget = '#algo';
+          console.log('tracking c : ', $(this.$.profile).data()['bs.scrollspy']._activeTarget);
+          // $(this.$.profile).scrollspy('refresh');
+          // $(this.$.profile).data()['bs.scrollspy'].refresh();
+          // console.log('tracking * : ', $(this.$.profile).data()['bs.scrollspy']._getConfig());
+          // $(this.$.profile).data()['bs.scrollspy']._clear();
+          $(this.$.profile).data()['bs.scrollspy']._activate('#algo');
+          // $(this.$.profile).data()['bs.scrollspy']._activeTarget = '#algo';
+          // $(this.$.profile).data('bs.scrollspy', {_activeTarget: '#algo'});
+          // $(this.$.profile).data()['bs.scrollspy']._process();
+          // $(this.$.profile).data()['bs.scrollspy'].refresh();
+          console.log('tracking f : ', $(this.$.profile).data()['bs.scrollspy']._activeTarget);
+          // console.log('tracking : ', jQuery(this.$.profile));
+
+          // $(this.$.profile).on('activate.bs.scrollspy', function () {
+          //   // do something…
+          //   console.log('done 1');
+          // });
+
+          // // console.log('tracking : ', $(this.$.profile).scrollspy._activeTarget);
+          // // // _activeTarget
+          // setTimeout(() => {
+          //   $(this.$.profile).scrollspy('refresh');
+          //   // this.$.algo.focus();
+          //   console.log('done 2');
+          // }, 2000);
+          // $(this.$.examplenav).scrollspy({ target: '#navbarexample2' });
 
           for (let x of data.repositories) {
             x.toolsGroup = this._prepareTools(x.tools);
