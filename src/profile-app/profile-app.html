@@ -602,8 +602,6 @@
       ready () {
         super.ready();
         this.fixSize = window.innerHeight - this.$.navbarprofile.offsetHeight;
-        // document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
-        // document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
       }
       _changeData (newData, oldData) {
         this.filterByTools = new Set();
@@ -615,43 +613,22 @@
           $(this.$.mail).tooltip({trigger: 'manual', placement: 'right'});
           $(this.$.examples).tooltip();
           $(this.$.resume).tooltip();
-          // $('body').scrollspy({ target: '#navbar-example' })
-          // $(this.$.profile).scrollspy({ target: '#navbar-profile' });
-          // document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
-          // document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
 
           document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
           document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
 
-          // $(this.$.profile).scrollspy({ target: this.$.navbarprofile });
           $(this.$.profile).scrollspy({ target: '#navbarprofile' });
-          $(this.$.examplenav).scrollspy({ target: '#navbarexample2' });
-          // document.querySelectorAll = this.shadowRoot.querySelectorAll;
-          // document.querySelector = this.shadowRoot.querySelector;
 
-
-          // $(this.$.examplenav).scrollspy({ target: this.$.navbarexample2 });
-          // $('[data-spy="scroll"]').on('activate.bs.scrollspy', function () {
-          //   // do something…
-          // })
-          // $(this.$.profile).on('activate.bs.scrollspy', function () {
-          // $(this.$.examplenav).on('activate.bs.scrollspy',  () => {
-          //   console.log('lksadjflaksjdlf @@@2');
-          //   debugger;
-          //   // console.log('-----------> ', $(this.$.examplenav).scrollspy);
-          // $(this.$.examplenav).scrollspy({ target: this.$.navbarexample2 });
-          //   // console.log('-----------> ', $(this.$.examplenav).scrollspy);
-          // });
           for (let x of data.repositories) {
             x.toolsGroup = this._prepareTools(x.tools);
           }
-          // const copyMail = new ClipboardJS(this.$.mail, {
-          //   text: trigger => {
-          //     $(this.$.mail).tooltip('show');
-          //     setTimeout(() => $(this.$.mail).tooltip('hide'), 1500);
-          //     return this.data.email;
-          //   }
-          // });
+          const copyMail = new ClipboardJS(this.$.mail, {
+            text: trigger => {
+              $(this.$.mail).tooltip('show');
+              setTimeout(() => $(this.$.mail).tooltip('hide'), 1500);
+              return this.data.email;
+            }
+          });
           this.repositoriesShow = data.repositories;
         }
       }
