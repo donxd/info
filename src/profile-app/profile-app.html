@@ -616,34 +616,71 @@
       }
       _prepareData (data) {
         if (data && data.repositories) {
-          $(this.$.mail).tooltip({trigger: 'manual', placement: 'right'});
-          $(this.$.examples).tooltip();
-          $(this.$.resume).tooltip();
-
-          document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
-          document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
-
-          $(this.$.profile).scrollspy({ target: '#navbarprofile' });
-          $(this.$.profile).data()['bs.scrollspy']._activeTarget = '#profileSection';
-          $(this.$.profile).data()['bs.scrollspy']._activate('#profileSection');
-
-          for (let x of data.repositories) {
-            x.toolsGroup = this._prepareTools(x.tools);
-          }
-
-          const copyMail = new ClipboardJS(this.$.mail, {
-            text: trigger => {
-              $(this.$.mail).tooltip('show');
-              setTimeout(() => $(this.$.mail).tooltip('hide'), 1000);
-              return this.data.email;
-            }
-          });
-
-          this.repositoriesShow = data.repositories;
+          this._prepareTooltips();
+          this._prepareSections();
+          this._prepareInfoRepositories(data);
+          this._prepareAnchors();
         }
       }
       _prepareTools (tools) {
         return tools.join(', ');
+      }
+
+      _prepareTooltips () {
+        $(this.$.mail).tooltip({trigger: 'manual', placement: 'right'});
+        $(this.$.examples).tooltip();
+        $(this.$.resume).tooltip();
+
+        const copyMail = new ClipboardJS(this.$.mail, {
+          text: trigger => {
+            $(this.$.mail).tooltip('show');
+            setTimeout(() => $(this.$.mail).tooltip('hide'), 1000);
+            return this.data.email;
+          }
+        });
+      }
+
+      _prepareSections () {
+        document.querySelectorAll = (selector) => this.shadowRoot.querySelectorAll(selector);
+        document.querySelector = (selector) => this.shadowRoot.querySelector(selector);
+
+        $(this.$.profile).scrollspy({ target: '#navbarprofile' });
+        $(this.$.profile).data()['bs.scrollspy']._activate('#profileSection');
+      }
+
+      _prepareAnchors () {
+        Array.from(this.shadowRoot.querySelectorAll('a')).forEach(link => {
+          if (this._isAnchorLink(link)) {
+            this._connectTarget(link);
+          }
+        });
+      }
+
+      _isAnchorLink (link) {
+        if (link) {
+          let target = link.getAttribute('href');
+          return target && target[0] && target[0] === '#' && target !== '#';
+        }
+        return false;
+      }
+
+      _connectTarget (link) {
+        let destination = this.shadowRoot.querySelector(link.getAttribute('href'));
+        if (destination) {
+          link.addEventListener('click', () => this._moveTo(destination), true);
+        }
+      }
+
+      _moveTo (destination) {
+        destination.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }
+
+      _prepareInfoRepositories (data) {
+        for (let x of data.repositories) {
+          x.toolsGroup = this._prepareTools(x.tools);
+        }
+
+        this.repositoriesShow = data.repositories;
       }
 
       _filter (event) {
