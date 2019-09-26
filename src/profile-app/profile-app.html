@@ -3,8 +3,7 @@
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../../bower_components/polymer/lib/elements/dom-if.html">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
-
+<link href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" rel="stylesheet" crossorigin="anonymous">
 
 <dom-module id="profile-app">
   <template>
@@ -29,6 +28,12 @@
         padding: 5px 10px;
         color: black;
       }
+      .repository i {
+        width: 20px;
+      }
+      .tools i {
+        width: 18px;
+      }
       #resume i {
         color: coral;
       }
@@ -43,7 +48,7 @@
         overflow-y: scroll;
       }
     </style>
-    <link href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <nav id="navbarprofile" class="navbar sticky-top navbar-light bg-light">
       <a class="navbar-brand" href="#"></a>
@@ -58,7 +63,7 @@
     </nav>
     <div id="profile" style="height: {{fixSize}}px;">
       <h4 id="profileSection"></h4>
-      <div class="card text-center border-dark mx-auto" style="width: 90%; max-width: 750px;">
+      <div class="card text-center border-dark mx-auto profile" style="width: 90%; max-width: 750px;">
         <img class="card-img-top" style="height:150px; object-fit: cover;" 
         src="{{profile.background}}" />
         <div style="height: 100px;">
@@ -95,10 +100,10 @@
       </div>
       <br/>
       <h4 id="projectsSection"></h4>
-      <div class="card mx-auto border-light" style="width: 90%; max-width: 750px;">
+      <div class="card mx-auto border-light projects" style="width: 90%; max-width: 750px;">
         <div class="d-flex justify-content-between">
-          <h5>{{messages.projectsTitle}}</h5>
-          <div>
+          <h5 class="p-2">{{messages.projectsTitle}}</h5>
+          <div class="p-2 tools">
             <template is="dom-if" if="{{clearFilters}}">
               <button type="button" on-click="_clearFilters" class="btn btn-outline-primary btn-sm">{{messages.clear}}</button>
             </template>
@@ -117,7 +122,7 @@
           </thead>
           <tbody>
             <template is="dom-repeat" as="repository" items="{{repositoriesShow}}">
-              <tr>
+              <tr class="repository">
                 <!-- <th scope="row"></th> -->
                 <td>
                   <a target="_blank" class="text-secondary" href="{{repository.url}}">
