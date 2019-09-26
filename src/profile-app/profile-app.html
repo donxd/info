@@ -20,6 +20,9 @@
       .tool:hover {
         color: royalblue;
       }
+      .invisible {
+        visibility: none;
+      }
       .icon {
         height: 32px;
         width: 32px;
@@ -104,9 +107,10 @@
         <div class="d-flex justify-content-between">
           <h5 class="p-2">{{messages.projectsTitle}}</h5>
           <div class="p-2 tools">
-            <template is="dom-if" if="{{clearFilters}}">
+            <div class$="d-inline {{clearFilters}}">
               <button type="button" on-click="_clearFilters" class="btn btn-outline-primary btn-sm">{{messages.clear}}</button>
-            </template>
+              &nbsp;
+            </div>
             <template id="tools" is="dom-repeat" as="tool" items="{{data.tools}}">
               <i on-click="_filter" class$="{{tool.icon}} tool" aria-hidden="true"></i>
             </template>
@@ -609,6 +613,7 @@
       ready () {
         super.ready();
         this._setFixSize();
+        this.clearFilters = 'invisible';
         window.onresize = () => this._setFixSize();
       }
       _setFixSize () {
@@ -704,7 +709,7 @@
       }
 
       _filterTools () {
-        this.clearFilters = !!this.filterByTools.size;
+        this.clearFilters = !!this.filterByTools.size ?  '' : 'invisible';
         this.repositoriesShow = this.data.repositories.filter(repository =>
           this._searchElements(repository.tools, this.filterByTools)
         );
