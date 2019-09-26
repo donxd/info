@@ -15,12 +15,60 @@
     <link rel="import" href="src/profile-app/profile-app.html">
   </head>
   <style>
+    html, body, .cape, profile-app {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+    }
+    .cape, profile-app {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .cape {
+      height: 100%;
+      min-height: 100%;
+      background: #FFF;
+      position: absolute;
+      z-index: 9999;
+    }
     body {
-      background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
       overflow-y: hidden;
+    }
+    body.back {
+      background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+    }
+    .fadeout {
+      -webkit-transition: opacity 0.5s ease-in-out;
+      -moz-transition: opacity 0.5s ease-in-out;
+      -ms-transition: opacity 0.5s ease-in-out;
+      -o-transition: opacity 0.5s ease-in-out;
+       opacity: 0;
+      /* -webkit-transition: display 0.5s ease-in-out;
+      -moz-transition: display 0.5s ease-in-out;
+      -ms-transition: display 0.5s ease-in-out;
+      -o-transition: display 0.5s ease-in-out;
+       opacity: none;*/
+    }
+    .gone {
+      display: none;
     }
   </style>
   <body>
+    <div class="cape"></div>
     <profile-app></profile-app>
   </body>
+  <script>
+    window.onload = () => {
+      setTimeout(() => showContent(), 500);
+      setTimeout(() => hideCape(), 1000);
+    }
+    function showContent () {
+      document.getElementsByTagName('body')[0].classList.add('back');
+      document.getElementsByTagName('div')[0].classList.add('fadeout');
+    }
+    function hideCape () {
+      document.getElementsByTagName('div')[0].classList.add('gone');
+    }
+  </script>
 </html>
