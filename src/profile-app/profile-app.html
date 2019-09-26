@@ -52,7 +52,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <nav id="navbarprofile" class="navbar sticky-top navbar-light bg-light shadow-sm">
       <div class="navbar-brand" style="padding: 0;">
-        <!-- <div class="data navbar-text invisible d-sm-none d-md-block" style="color: #212529;"> -->
         <div class="data navbar-brand d-none" style="display: flex; padding: 0; align-items: center;">
           <img style="width: 40px" class="rounded-circle border border-dark" src="./images/0.jpeg" />
           <span class="data2 d-none" style="color: #212529;">&nbsp; {{data.nameShort}}</span>
@@ -668,24 +667,12 @@
         let element2 = this.shadowRoot.querySelector('#navbarprofile .data2');
         if ($(this.$.profile).data()['bs.scrollspy']._activeTarget === '#projectsSection') {
           elements.forEach(element => element.classList.remove('d-none') );
-          // element2.classList.remove('d-none');
-          // element2.classList.add('d-sm-none');
-          // element2.classList.add('d-xs-none');
           element2.classList.add('d-sm-block');
           element2.classList.add('d-xs-block');
-          // element2.classList.add('d-md-block');
-          // element2.classList.add('d-lg-block');
-          // element2.classList.add('d-xl-block');
         } else {
           elements.forEach(element => element.classList.add('d-none'));
-          // element2.classList.add('d-none');
-          // element2.classList.remove('d-sm-none');
-          // element2.classList.remove('d-xs-none');
           element2.classList.remove('d-sm-block');
           element2.classList.remove('d-xs-block');
-          // element2.classList.remove('d-md-block');
-          // element2.classList.remove('d-lg-block');
-          // element2.classList.remove('d-xl-block');
         }
       }
 
